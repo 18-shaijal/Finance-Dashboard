@@ -26,7 +26,6 @@ export function netBalance(transactions: Transaction[]) {
   return totalIncome(transactions) - totalExpenses(transactions);
 }
 
-/** Spending by category (expenses only) */
 export function spendingByCategory(transactions: Transaction[]) {
   const map = new Map<string, number>();
   for (const t of transactions) {
@@ -38,7 +37,6 @@ export function spendingByCategory(transactions: Transaction[]) {
     .sort((a, b) => b.value - a.value);
 }
 
-/** Cumulative balance trend by calendar month (sorted ascending) */
 export function balanceTrendByMonth(
   transactions: Transaction[],
   monthsBack = 6

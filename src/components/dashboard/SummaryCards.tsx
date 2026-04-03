@@ -33,7 +33,7 @@ const cards = [
     title: "Total balance",
     icon: AccountBalanceWalletOutlined,
     value: (t: Transaction[]) => netBalance(t),
-    hint: "Income minus expenses (all time)",
+    hint: "Net in the current range",
     accent: "primary" as const,
   },
   {
@@ -41,7 +41,7 @@ const cards = [
     title: "Income",
     icon: TrendingUpOutlined,
     value: (t: Transaction[]) => totalIncome(t),
-    hint: "Total credited",
+    hint: "Income in range",
     accent: "success" as const,
   },
   {
@@ -49,7 +49,7 @@ const cards = [
     title: "Expenses",
     icon: TrendingDownOutlined,
     value: (t: Transaction[]) => totalExpenses(t),
-    hint: "Total spent",
+    hint: "Expenses in range",
     accent: "error" as const,
   },
 ];
@@ -178,7 +178,7 @@ export default function SummaryCards({
                           variant="outlined"
                         />
                         <Typography variant="caption" color="text.secondary">
-                          vs previous {spanDays} days
+                          vs prior period
                         </Typography>
                       </Stack>
                     )}

@@ -48,7 +48,6 @@ export interface FinanceState {
   setAnalyticsRangePreset: (p: AnalyticsRangePreset) => void;
   setAnalyticsCustomRange: (start: string, end: string) => void;
   setAnalyticsBucket: (b: AnalyticsBucketMode) => void;
-  /** Resets search + type/category filters (not sort or date picker). */
   clearTableFilters: () => void;
   addTransaction: (t: Omit<Transaction, "id">) => void;
   updateTransaction: (id: string, patch: Partial<Transaction>) => void;
@@ -151,7 +150,6 @@ export const useFinanceStore = create<FinanceState>()(
       name: STORAGE_KEY,
       storage:
         withPersistWriteDedupe(jsonPersistStorage) ?? jsonPersistStorage,
-      // Role is not persisted — avoids rehydration races and keeps header controls always usable.
       partialize: (s) => ({
         transactions: s.transactions,
         colorMode: s.colorMode,
@@ -160,8 +158,6 @@ export const useFinanceStore = create<FinanceState>()(
         analyticsCustomEnd: s.analyticsCustomEnd,
         analyticsBucket: s.analyticsBucket,
       }),
-      // Only merge persisted fields we control — never spread `...p` (old caches
-      // could overwrite filters/sort and cause invalid state + update loops).
       merge: (persisted, current) => {
         const p = persisted as Partial<FinanceState> | undefined;
         if (!p || typeof p !== "object") return current;

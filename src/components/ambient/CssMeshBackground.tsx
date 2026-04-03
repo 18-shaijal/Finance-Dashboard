@@ -11,9 +11,6 @@ const driftB = keyframes`
   50% { transform: translate(4%, -3%) scale(1.05); }
 `;
 
-/**
- * Animated color mesh (CSS only). Sits under Three.js and page content.
- */
 export default function CssMeshBackground() {
   const theme = useTheme();
   const dark = theme.palette.mode === "dark";

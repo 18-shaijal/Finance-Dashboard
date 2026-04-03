@@ -1,6 +1,16 @@
-# Finance Dashboard UI
+# Finance Dashboard
 
-A small **Next.js (App Router)**, **TypeScript**, and **Material UI** dashboard for tracking balance, income, expenses, transactions, and simple spending insights. Data is **mocked on the client**; roles and persistence are **simulated in the browser**.
+Client-only finance dashboard: mock data, browser persistence, role simulation (no real auth or API).
+
+## Stack
+
+- **Vite 5** + **React 18** + **TypeScript**
+- **MUI v7** + **Emotion**
+- **Zustand** (`persist` → `localStorage`)
+- **Recharts** (line + pie)
+- **React Router** (`/` Overview, `/analytics` charts)
+- **Three.js** (optional ambient background, lazy-loaded)
+- **date-fns** for dates
 
 ## Setup
 
@@ -10,54 +20,75 @@ npm install
 npm run dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000).
-
-**Live reload (Fast Refresh):** only happens in **development** with `npm run dev`. The command `npm run start` serves a **production** build and does **not** watch files—use `dev` while editing code.
-
-If saving files doesn’t trigger reloads (common on some network drives or strict macOS setups), use polling:
+Open **http://localhost:5173** (Vite default).
 
 ```bash
-npm run dev:poll
+npm run build    # typecheck + production bundle
+npm run preview  # serve dist locally
+npm run lint     # tsc --noEmit
 ```
 
-Optional: `npm run dev:turbo` uses Turbopack for faster dev rebuilds.
+**Node:** 18+ recommended.
 
-```bash
-npm run build   # production build
-npm run start   # run production server
+## Features
+
+| Area | Notes |
+|------|--------|
+| Overview + cards | Net / income / expenses for the **selected date range** + delta vs prior window |
+| Charts | Balance trend (day/month buckets) and category pie on **Analytics** |
+| Transactions | Table or stacked cards; pagination |
+| Filters | Search, type, category; overview table + insights follow the shared date range |
+| Sort | Date or amount, asc/desc |
+| Roles | **Viewer:** read-only · **Admin:** add / edit / delete |
+| Insights | Top category, expense comparison vs previous window, activity counts |
+| State | **Zustand** + persist (transactions, theme, date range, bucket mode) |
+| Layout | Responsive breakpoints, scrollable table, chart sizing |
+
+Also: CSV/JSON export for the visible rows, dark mode, reset seed data, clear-filters chip, shortcuts (`/` focus search, `A` add as admin, `?` help).
+
+## Layout (src)
+
+- `src/main.tsx` — `BrowserRouter`, error boundary
+- `src/App.tsx` — routes
+- `src/layouts/AppLayout.tsx` — shell, tabs, date range strip, outlet
+- `src/pages/OverviewPage.tsx` / `AnalyticsPage.tsx`
+- `src/components/dashboard/` — cards, charts, table, dialogs, insights, date range
+- `src/components/ambient/` — CSS mesh + Three canvas
+- `src/store/useFinanceStore.ts` — state, persist, merge guards
+- `src/lib/` — analytics range, selectors, export, formatting
+- `src/data/seedTransactions.ts` — seed data
+
+## Deploying (SPA)
+
+Direct visits and refreshes on **`/analytics`** must serve **`index.html`** so React Router can run. Point the build output to **`dist/`** after `npm run build`.
+
+### Netlify
+
+Add **`public/_redirects`** in this project (Vite copies `public/` into `dist/`):
+
+```
+/*    /index.html   200
 ```
 
-**Requirements:** Node.js 18+ (project was scaffolded with Next.js 14).
+Or in the Netlify UI: **Site settings → Build & deploy → Redirects** with the same rule.
 
-## Approach
+### Vercel
 
-- **UI:** MUI components, `AppRouterCacheProvider` for Emotion + App Router, and a client `ThemeProvider` for light/dark mode.
-- **Charts:** [Recharts](https://recharts.org/) for a balance-over-time line chart and a spending-by-category donut chart.
-- **State:** [Zustand](https://github.com/pmndrs/zustand) with the `persist` middleware so **transactions**, **role**, and **theme** survive reloads via `localStorage`.
-- **Data:** Seed transactions in `src/data/seedTransactions.ts`; totals and insights are derived with pure helpers in `src/lib/financeSelectors.ts`.
+Add **`vercel.json`** at the repo root (or `finance-dashboard/` if that folder is the project root):
 
-## Features (assignment mapping)
+```json
+{
+  "rewrites": [{ "source": "/(.*)", "destination": "/index.html" }]
+}
+```
 
-| Requirement | Implementation |
-|-------------|----------------|
-| Summary cards | Total balance, income, expenses |
-| Time-based chart | Cumulative balance trend (last 6 months) |
-| Categorical chart | Expense breakdown by category (pie) |
-| Transactions | Date, amount, category, type, description |
-| Filter / sort / search | Type & category filters, sort by date or amount, search box |
-| Role-based UI | **Viewer:** read-only · **Admin:** add / edit / delete (dropdown in app bar) |
-| Insights | Top spending category, this month vs last month (expenses), activity snapshot |
-| Empty states | Copy when filters match nothing or all data is cleared |
-| Extras | Dark mode toggle, CSV/JSON export of **filtered** rows, reset demo data |
+Build command: `npm run build` · Output directory: `dist`.
 
-## Project layout (high level)
+### GitHub Pages (subpath)
 
-- `src/app/` — `layout.tsx` (fonts, MUI cache), `page.tsx` (loads dashboard client-side).
-- `src/store/useFinanceStore.ts` — app state and actions.
-- `src/components/dashboard/` — shell, cards, charts, table, dialogs, insights.
-- `src/lib/` — formatting, derived metrics, CSV/JSON export.
+If the site is served from `https://user.github.io/repo-name/`, set `base` in `vite.config.ts` to `'/repo-name/'` and use a router `basename` to match (would require a small code change).
 
 ## Notes
 
-- The home page uses `dynamic(..., { ssr: false })` so the dashboard mounts only on the client, avoiding hydration mismatches with persisted Zustand state.
-- “Admin” is **frontend-only**; there is no API or real authentication.
+- **Admin / Viewer** are UI-only; no backend.
+- Persisted state can be cleared via browser storage or the header **reset demo data** control.

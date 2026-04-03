@@ -4,7 +4,6 @@ import type {
   StorageValue,
 } from "zustand/middleware";
 
-/** Avoid touching `localStorage` during SSR (Node has no `localStorage`). */
 function noopStorage(): StateStorage {
   return {
     getItem: () => null,
@@ -18,12 +17,7 @@ export function getClientStorage(): StateStorage {
   return window.localStorage;
 }
 
-/**
- * Zustand persist calls setItem after every state change. Partialize only saves
- * transactions/role/colorMode — when only search/filters change, the serialized
- * payload is identical; skipping the write avoids main-thread stalls from
- * JSON.stringify + localStorage on every keystroke.
- */
+// zustand persist writes on every tick; bail if json didn't change
 export function withPersistWriteDedupe<S>(
   inner: PersistStorage<S, unknown> | undefined
 ): PersistStorage<S, unknown> | undefined {

@@ -28,16 +28,12 @@ const PRESET_ORDER: AnalyticsRangePreset[] = [
 ];
 
 const BUCKET_OPTIONS: { value: AnalyticsBucketMode; label: string }[] = [
-  { value: "auto", label: "Auto (by span)" },
+  { value: "auto", label: "Auto" },
   { value: "day", label: "Daily" },
   { value: "month", label: "Monthly" },
 ];
 
-/**
- * Global date/analytics controls (Zustand). Drives charts on Analytics,
- * % deltas on Overview summary cards, and chart click-to-zoom uses the same store.
- */
-export default function UniversalDateRangePicker() {
+export default function DateRangeControls() {
   const preset = useFinanceStore((s) => s.analyticsRangePreset);
   const customStart = useFinanceStore((s) => s.analyticsCustomStart);
   const customEnd = useFinanceStore((s) => s.analyticsCustomEnd);
@@ -65,12 +61,10 @@ export default function UniversalDateRangePicker() {
       }}
     >
       <Typography variant="subtitle2" fontWeight={600} gutterBottom>
-        Universal date range
+        Date range
       </Typography>
       <Typography variant="caption" color="text.secondary" display="block" sx={{ mb: 1.5 }}>
-        One picker for the whole app: Analytics charts + the “vs previous period” cards.
-        Overview also uses this window for the table and insights. Your choice is saved in
-        this browser.
+        Drives cards, table, insights, and analytics. Saved in localStorage.
       </Typography>
 
       <Stack
@@ -146,15 +140,9 @@ export default function UniversalDateRangePicker() {
 
       <Box sx={{ mt: 1.5, pt: 1.5, borderTop: 1, borderColor: "divider" }}>
         <Typography variant="caption" color="text.secondary" component="p" sx={{ m: 0 }}>
-          Active window:{" "}
-          <Box component="span" fontWeight={600} color="text.primary">
-            {formatRangeSummary(resolved.start, resolved.end)}
-          </Box>
+          {formatRangeSummary(resolved.start, resolved.end)}
           {" · "}
-          Trend granularity:{" "}
-          <Box component="span" fontWeight={600} color="text.primary">
-            {effBucket === "day" ? "Daily" : "Monthly"}
-          </Box>
+          {effBucket === "day" ? "day" : "month"} buckets
         </Typography>
       </Box>
     </Paper>

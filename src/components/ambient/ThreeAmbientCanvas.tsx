@@ -3,9 +3,6 @@ import { useTheme } from "@mui/material/styles";
 import { useEffect, useRef } from "react";
 import * as THREE from "three";
 
-/**
- * Subtle rotating particle field (Three.js). Transparent; pairs with CssMeshBackground.
- */
 export default function ThreeAmbientCanvas() {
   const containerRef = useRef<HTMLDivElement>(null);
   const theme = useTheme();

@@ -418,8 +418,8 @@ export default function TransactionsTable({
           </Typography>
           <Typography variant="body2" color="text.secondary" sx={{ lineHeight: 1.6 }}>
             {storeTransactions.length === 0
-              ? "Switch to Admin to add a transaction, or use the header reset control to load demo data."
-              : "Clear the search box or set type and category to All to see more rows. Or widen the date range in the picker."}
+              ? "Admin can add rows; header reset loads the seed set."
+              : "Clear filters or widen the date range."}
           </Typography>
         </Box>
       ) : narrow ? (

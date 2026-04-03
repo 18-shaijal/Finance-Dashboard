@@ -54,39 +54,34 @@ export default function InsightsSection({
 
   if (scoped.length === 0) {
     items.push({
-      primary: "No activity in this date range",
-      secondary: "Adjust the picker above or add transactions that fall inside these dates.",
+      primary: "Nothing in this range",
+      secondary: "Move the dates or add rows that fall inside the window.",
     });
   } else {
     if (expenseOnly.length === 0) {
       items.push({
-        primary: "No expenses in this period",
-        secondary:
-          "Income is fine, but category insights and expense comparisons need at least one expense.",
+        primary: "No expenses here",
+        secondary: "Category breakdown needs at least one expense line.",
       });
     }
     if (high) {
       items.push({
-        primary: `Highest spending: ${high.name}`,
-        secondary: `${formatCurrency(high.value)} total in this category across all expenses in the selected period.`,
+        primary: `Top category: ${high.name}`,
+        secondary: `${formatCurrency(high.value)} in this range.`,
       });
     }
     items.push({
-      primary: "Selected range vs previous period (expenses)",
+      primary: "Expenses vs last window",
       secondary:
         lastExpenses === 0 && thisExpenses === 0
-          ? "No expenses recorded for this and the previous period."
-          : `${formatCurrency(thisExpenses)} in this range vs ${formatCurrency(
+          ? "Zero in both windows."
+          : `${formatCurrency(thisExpenses)} now vs ${formatCurrency(
               lastExpenses
-            )} in the previous period (${diff >= 0 ? "+" : ""}${pct.toFixed(
-              1
-            )}% vs previous).`,
+            )} before (${diff >= 0 ? "+" : ""}${pct.toFixed(1)}%).`,
     });
     items.push({
-      primary: "Activity snapshot",
-      secondary: `${scoped.length} transactions in this range${
-        expenseOnly.length ? ` · average expense ${formatCurrency(avgExpense)}` : ""
-      }.`,
+      primary: "Snapshot",
+      secondary: `${scoped.length} rows${expenseOnly.length ? ` · avg expense ${formatCurrency(avgExpense)}` : ""}`,
     });
   }
 

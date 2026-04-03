@@ -20,7 +20,6 @@ function id(prefix: string, n: number) {
   return `${prefix}-${n.toString().padStart(4, "0")}`;
 }
 
-/** Deterministic mock data for the assignment demo */
 export const seedTransactions: Transaction[] = [
   {
     id: id("tx", 1),

@@ -16,8 +16,8 @@ export default function AnalyticsPage() {
           Analytics
         </Typography>
         <Typography variant="body2" color="text.secondary" sx={{ maxWidth: 560 }}>
-          Balance trend and spending breakdown for the universal date range above.
-          Click the line or pie slices to narrow filters on the Overview page.
+          Uses the same range as the header. Line chart: click a point to zoom the window.
+          Pie: click a slice to filter by category on Overview.
         </Typography>
       </Box>
 

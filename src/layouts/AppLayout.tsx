@@ -20,7 +20,7 @@ import { lazy, Suspense, useEffect, useState } from "react";
 import { Link, Outlet, useLocation } from "react-router-dom";
 import CssMeshBackground from "@/components/ambient/CssMeshBackground";
 import KeyboardShortcutsDialog from "@/components/KeyboardShortcutsDialog";
-import UniversalDateRangePicker from "@/components/dashboard/UniversalDateRangePicker";
+import DateRangeControls from "@/components/dashboard/DateRangeControls";
 import { useFinanceStore } from "@/store/useFinanceStore";
 import type { UserRole } from "@/types";
 
@@ -220,7 +220,7 @@ export default function AppLayout() {
         }}
       >
         <Stack spacing={3}>
-          <UniversalDateRangePicker />
+          <DateRangeControls />
           <Outlet />
         </Stack>
       </Container>

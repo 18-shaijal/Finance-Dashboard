@@ -25,10 +25,10 @@ export class ErrorBoundary extends Component<Props, State> {
             margin: "48px auto",
           }}
         >
-          <h1 style={{ fontSize: 20, marginBottom: 12 }}>Something went wrong</h1>
+          <h1 style={{ fontSize: 20, marginBottom: 12 }}>Something broke</h1>
           <p style={{ color: "#444", marginBottom: 16 }}>
-            The dashboard hit a runtime error. Try clearing site data for this origin (localStorage
-            key <code>finance-dashboard-v1</code>) or use a hard refresh.
+            Hard refresh first. If it persists, clear storage for this site (key{" "}
+            <code>finance-dashboard-v1</code>).
           </p>
           <pre
             style={{

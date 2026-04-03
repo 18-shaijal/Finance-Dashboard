@@ -2,10 +2,7 @@ import { useLayoutEffect, useRef, useState } from "react";
 
 const DEFAULT = 520;
 
-/**
- * Recharts v3 ResponsiveContainer often renders nothing when flex parents briefly report width 0.
- * Measure the wrapper and pass explicit pixel width to LineChart/PieChart instead.
- */
+// ResponsiveContainer was coming up blank in flex rows, measure the wrapper instead
 export function useChartContainerWidth() {
   const containerRef = useRef<HTMLDivElement>(null);
   const [width, setWidth] = useState(DEFAULT);

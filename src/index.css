@@ -27,7 +27,7 @@ body {
   }
 }
 
-/* Keep chart SVG inside its card; stacking order is handled in AppLayout / chart rows. */
+/* stop recharts from spilling past the card edge */
 .recharts-wrapper {
   max-width: 100%;
   overflow: hidden;

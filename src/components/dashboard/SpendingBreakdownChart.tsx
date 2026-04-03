@@ -92,14 +92,14 @@ export default function SpendingBreakdownChart({
         Spending by category
       </Typography>
       <Typography variant="body2" color="text.secondary" sx={{ mb: 0.5 }}>
-        Expense totals by category in the selected period
+        Expenses by category
       </Typography>
       <Typography variant="caption" color="text.secondary" display="block" sx={{ mb: 0.5 }}>
         {rangeSummary}
       </Typography>
       {!empty && (
         <Typography variant="caption" color="text.secondary" display="block" sx={{ mb: 1.5 }}>
-          Hover for values. Click a slice to filter transactions by that category.
+          Hover for amounts; click a slice to filter the table.
         </Typography>
       )}
       <Box
@@ -118,21 +118,21 @@ export default function SpendingBreakdownChart({
           <ChartEmptyPlaceholder
             title={
               noTransactions
-                ? "No transactions yet"
+                ? "No data"
                 : noActivityInRange
-                  ? "Nothing in this date range"
+                  ? "No rows in range"
                   : noExpensesInRange
-                    ? "No expenses in this period"
-                    : "No expenses to chart"
+                    ? "No expenses here"
+                    : "Nothing to plot"
             }
             detail={
               noTransactions
-                ? "Add transactions or restore demo data to see spending by category."
+                ? "Seed data from the header or add expenses as Admin."
                 : noActivityInRange
-                  ? "Adjust the chart time range so it overlaps your transaction dates."
+                  ? "Nothing in this window—widen the range."
                   : noExpensesInRange
-                    ? "Try a wider date range or add expenses that fall inside these dates."
-                    : "This chart only includes expenses. Add an expense or widen filters elsewhere."
+                    ? "No expenses here; try a wider range."
+                    : "Pie is expenses only."
             }
           />
         ) : (

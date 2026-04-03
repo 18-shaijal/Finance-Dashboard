@@ -22,7 +22,7 @@ export default function KeyboardShortcutsDialog({
       <DialogTitle>Keyboard shortcuts</DialogTitle>
       <DialogContent>
         <Typography variant="body2" color="text.secondary" sx={{ mb: 1 }}>
-          Press outside or Esc to close.
+          Esc or click away to close.
         </Typography>
         <List dense disablePadding>
           <ListItem sx={{ px: 0 }}>
@@ -34,7 +34,7 @@ export default function KeyboardShortcutsDialog({
             </ListItem>
           )}
           <ListItem sx={{ px: 0 }}>
-            <ListItemText primary="?" secondary="Open this help" />
+            <ListItemText primary="?" secondary="This panel" />
           </ListItem>
         </List>
       </DialogContent>

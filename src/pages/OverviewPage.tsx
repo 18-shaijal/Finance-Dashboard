@@ -44,10 +44,10 @@ export default function OverviewPage() {
           sx={{ mb: 2, maxWidth: 560, lineHeight: 1.6 }}
         >
           {role === "viewer"
-            ? "You are viewing as Viewer — transactions are read-only."
-            : "You are viewing as Admin — you can add, edit, or delete transactions."}{" "}
-          Open <strong>Analytics</strong> for charts; use the date range above for period
-          comparisons on these cards.
+            ? "Viewer: table is read-only."
+            : "Admin: add, edit, or delete rows from the table."}{" "}
+          <strong>Analytics</strong> has charts; the date strip above sets the range for cards and
+          this page.
         </Typography>
         <SummaryCards transactions={transactions} />
       </Box>

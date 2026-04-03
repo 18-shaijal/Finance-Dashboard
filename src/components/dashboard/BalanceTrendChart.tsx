@@ -85,15 +85,14 @@ export default function BalanceTrendChart({
         Balance trend
       </Typography>
       <Typography variant="body2" color="text.secondary" sx={{ mb: 0.5 }}>
-        Cumulative net in the selected period (
-        {effBucket === "day" ? "by day" : "by calendar month"})
+        Running net ({effBucket === "day" ? "daily" : "monthly"})
       </Typography>
       <Typography variant="caption" color="text.secondary" display="block" sx={{ mb: !empty && !noActivityInRange ? 1.5 : 0.5 }}>
         {rangeSummary}
       </Typography>
       {!empty && !noActivityInRange && (
         <Typography variant="caption" color="text.secondary" display="block" sx={{ mb: 1.5 }}>
-          Hover for values. Click a point to focus charts on that date period.
+          Hover for numbers; click a point to snap the range.
         </Typography>
       )}
       <Box
@@ -110,13 +109,13 @@ export default function BalanceTrendChart({
       >
         {empty ? (
           <ChartEmptyPlaceholder
-            title="No transactions yet"
-            detail="Add transactions or restore demo data from the header to see your balance trend."
+            title="No data"
+            detail="Add rows or hit reset in the header for sample data."
           />
         ) : noActivityInRange ? (
           <ChartEmptyPlaceholder
-            title="Nothing in this date range"
-            detail="Widen the chart time range or pick Custom dates that include your transactions."
+            title="No rows in range"
+            detail="Widen the range or pick custom dates that overlap your data."
           />
         ) : (
           <LineChart

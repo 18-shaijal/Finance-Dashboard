@@ -41,7 +41,6 @@ export function parseISODateOnly(s: string): Date | null {
   return isValid(d) ? d : null;
 }
 
-/** Inclusive date range for charts, end-aligned to “now” for presets. */
 export function resolveAnalyticsRange(
   preset: AnalyticsRangePreset,
   customStart: string,
@@ -136,7 +135,6 @@ export type BalanceTrendPoint = {
   balance: number;
 };
 
-/** Cumulative net (income − expenses) within the window, by day or month. */
 export function buildBalanceTrendSeries(
   transactions: Transaction[],
   start: Date,

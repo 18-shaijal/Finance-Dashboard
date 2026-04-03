@@ -49,8 +49,7 @@ export default function TransactionDialog({
       : [...INCOME_CATEGORIES];
   }, [form.type]);
 
-  // Depend on initial?.id only — `initial` object identity from parent can change every render
-  // and would re-fire this effect + setForm in an infinite loop.
+  // parent passes new initial object each render; only re-sync when id changes
   const initialId = initial?.id;
   useEffect(() => {
     if (!open) return;
@@ -79,7 +78,7 @@ export default function TransactionDialog({
         type: "expense",
       });
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps -- initial fields read when id/edit mode match
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [open, mode, initialId]);
 
   const handleSubmit = () => {
