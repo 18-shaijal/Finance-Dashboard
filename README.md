@@ -62,15 +62,6 @@ Also: CSV/JSON export for the visible rows, dark mode, reset seed data, clear-fi
 
 Direct visits and refreshes on **`/analytics`** must serve **`index.html`** so React Router can run. Point the build output to **`dist/`** after `npm run build`.
 
-### Netlify
-
-Add **`public/_redirects`** in this project (Vite copies `public/` into `dist/`):
-
-```
-/*    /index.html   200
-```
-
-Or in the Netlify UI: **Site settings → Build & deploy → Redirects** with the same rule.
 
 ### Vercel
 
