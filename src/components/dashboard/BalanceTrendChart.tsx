@@ -19,6 +19,7 @@ import {
 } from "@/lib/analyticsRange";
 import { useFinanceStore } from "@/store/useFinanceStore";
 import type { Transaction } from "@/types";
+import { localeForCurrency } from "@/lib/currencies";
 import ChartEmptyPlaceholder from "./ChartEmptyPlaceholder";
 
 const CHART_HEIGHT_MD = 280;
@@ -39,6 +40,8 @@ export default function BalanceTrendChart({
   const customEnd = useFinanceStore((s) => s.analyticsCustomEnd);
   const bucketMode = useFinanceStore((s) => s.analyticsBucket);
   const setAnalyticsCustomRange = useFinanceStore((s) => s.setAnalyticsCustomRange);
+  const transactionCurrency = useFinanceStore((s) => s.transactionCurrency);
+  const chartLocale = localeForCurrency(transactionCurrency);
 
   const { data, rangeSummary, effBucket, inRangeCount } = useMemo(() => {
     const range = resolveAnalyticsRange(preset, customStart, customEnd);
@@ -162,7 +165,7 @@ export default function BalanceTrendChart({
               }}
               axisLine={{ stroke: theme.palette.divider }}
               tickFormatter={(v) =>
-                new Intl.NumberFormat("en-US", {
+                new Intl.NumberFormat(chartLocale, {
                   notation: "compact",
                   maximumFractionDigits: 0,
                 }).format(v as number)
@@ -178,9 +181,9 @@ export default function BalanceTrendChart({
                 boxShadow: theme.shadows[4],
               }}
               formatter={(value) => [
-                new Intl.NumberFormat("en-US", {
+                new Intl.NumberFormat(chartLocale, {
                   style: "currency",
-                  currency: "USD",
+                  currency: transactionCurrency,
                   maximumFractionDigits: 0,
                 }).format(Number(value)),
                 "Balance",

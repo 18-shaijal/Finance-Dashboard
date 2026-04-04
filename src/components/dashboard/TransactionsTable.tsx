@@ -30,8 +30,9 @@ import {
 } from "@mui/material";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { ALL_CATEGORIES } from "@/data/seedTransactions";
+import { useFormatMoney } from "@/hooks/useFormatMoney";
 import { exportTransactionsCsv, exportTransactionsJson } from "@/lib/exportTransactions";
-import { formatCurrency, formatShortDate } from "@/lib/formatCurrency";
+import { getCurrencySymbol } from "@/lib/currencies";
 import { useFinanceStore } from "@/store/useFinanceStore";
 import type { Transaction } from "@/types";
 import TransactionDialog from "./TransactionDialog";
@@ -94,6 +95,8 @@ export default function TransactionsTable({
   const updateTransaction = useFinanceStore((s) => s.updateTransaction);
   const deleteTransaction = useFinanceStore((s) => s.deleteTransaction);
   const clearTableFilters = useFinanceStore((s) => s.clearTableFilters);
+  const transactionCurrency = useFinanceStore((s) => s.transactionCurrency);
+  const { format: formatMoney, formatDate } = useFormatMoney();
 
   const [dialogOpen, setDialogOpen] = useState(false);
   const [dialogMode, setDialogMode] = useState<"create" | "edit">("create");
@@ -442,13 +445,13 @@ export default function TransactionsTable({
                   alignItems="center"
                 >
                   <Typography variant="subtitle2">
-                    {formatShortDate(row.date)}
+                    {formatDate(row.date)}
                   </Typography>
                   <TypeChip type={row.type} />
                 </Stack>
                 <Typography fontWeight={700}>
                   {row.type === "expense" ? "−" : "+"}
-                  {formatCurrency(row.amount)}
+                  {formatMoney(row.amount)}
                 </Typography>
                 <Typography
                   variant="body2"
@@ -524,7 +527,9 @@ export default function TransactionsTable({
             <TableHead>
               <TableRow>
                 <TableCell>Date</TableCell>
-                <TableCell align="right">Amount</TableCell>
+                <TableCell align="right">
+                  Amount ({getCurrencySymbol(transactionCurrency)})
+                </TableCell>
                 <TableCell>Category</TableCell>
                 <TableCell>Type</TableCell>
                 <TableCell>Description</TableCell>
@@ -534,10 +539,10 @@ export default function TransactionsTable({
             <TableBody>
               {paginated.map((row) => (
                 <TableRow key={row.id} hover>
-                  <TableCell>{formatShortDate(row.date)}</TableCell>
+                  <TableCell>{formatDate(row.date)}</TableCell>
                   <TableCell align="right">
                     {row.type === "expense" ? "−" : "+"}
-                    {formatCurrency(row.amount)}
+                    {formatMoney(row.amount)}
                   </TableCell>
                   <TableCell>{row.category}</TableCell>
                   <TableCell>

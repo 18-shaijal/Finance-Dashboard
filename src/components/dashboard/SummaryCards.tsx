@@ -14,7 +14,7 @@ import {
   useTheme,
 } from "@mui/material";
 import { addDays, differenceInCalendarDays, subDays } from "date-fns";
-import { formatCurrency } from "@/lib/formatCurrency";
+import { useFormatMoney } from "@/hooks/useFormatMoney";
 import {
   filterTransactionsInRange,
   resolveAnalyticsRange,
@@ -60,6 +60,7 @@ export default function SummaryCards({
   transactions: Transaction[];
 }) {
   const theme = useTheme();
+  const { format: formatMoney } = useFormatMoney();
   const preset = useFinanceStore((s) => s.analyticsRangePreset);
   const customStart = useFinanceStore((s) => s.analyticsCustomStart);
   const customEnd = useFinanceStore((s) => s.analyticsCustomEnd);
@@ -150,7 +151,7 @@ export default function SummaryCards({
                         wordBreak: "break-word",
                       }}
                     >
-                      {formatCurrency(raw)}
+                      {formatMoney(raw)}
                     </Typography>
                     <Typography variant="caption" color="text.secondary">
                       {emptyInRange ? "Add transactions to see totals" : c.hint}

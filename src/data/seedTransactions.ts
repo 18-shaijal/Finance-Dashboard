@@ -24,7 +24,7 @@ export const seedTransactions: Transaction[] = [
   {
     id: id("tx", 1),
     date: "2025-11-05",
-    amount: 5200,
+    amount: 92000,
     category: "Salary",
     type: "income",
     description: "Monthly salary",
@@ -32,7 +32,7 @@ export const seedTransactions: Transaction[] = [
   {
     id: id("tx", 2),
     date: "2025-11-08",
-    amount: 420,
+    amount: 4200,
     category: "Food",
     type: "expense",
     description: "Groceries",
@@ -40,15 +40,15 @@ export const seedTransactions: Transaction[] = [
   {
     id: id("tx", 3),
     date: "2025-11-12",
-    amount: 89,
+    amount: 2500,
     category: "Transport",
     type: "expense",
-    description: "Transit pass",
+    description: "Metro pass",
   },
   {
     id: id("tx", 4),
     date: "2025-11-18",
-    amount: 650,
+    amount: 55000,
     category: "Freelance",
     type: "income",
     description: "Design project",
@@ -56,7 +56,7 @@ export const seedTransactions: Transaction[] = [
   {
     id: id("tx", 5),
     date: "2025-11-22",
-    amount: 120,
+    amount: 1800,
     category: "Entertainment",
     type: "expense",
     description: "Concert tickets",
@@ -64,7 +64,7 @@ export const seedTransactions: Transaction[] = [
   {
     id: id("tx", 6),
     date: "2025-12-01",
-    amount: 5200,
+    amount: 92000,
     category: "Salary",
     type: "income",
     description: "Monthly salary",
@@ -72,7 +72,7 @@ export const seedTransactions: Transaction[] = [
   {
     id: id("tx", 7),
     date: "2025-12-04",
-    amount: 180,
+    amount: 1499,
     category: "Bills",
     type: "expense",
     description: "Internet",
@@ -80,7 +80,7 @@ export const seedTransactions: Transaction[] = [
   {
     id: id("tx", 8),
     date: "2025-12-09",
-    amount: 310,
+    amount: 6500,
     category: "Shopping",
     type: "expense",
     description: "Winter jacket",
@@ -88,7 +88,7 @@ export const seedTransactions: Transaction[] = [
   {
     id: id("tx", 9),
     date: "2025-12-14",
-    amount: 95,
+    amount: 2200,
     category: "Food",
     type: "expense",
     description: "Dining out",
@@ -96,7 +96,7 @@ export const seedTransactions: Transaction[] = [
   {
     id: id("tx", 10),
     date: "2025-12-20",
-    amount: 400,
+    amount: 12000,
     category: "Investment",
     type: "income",
     description: "Dividend",
@@ -104,7 +104,7 @@ export const seedTransactions: Transaction[] = [
   {
     id: id("tx", 11),
     date: "2026-01-03",
-    amount: 5200,
+    amount: 92000,
     category: "Salary",
     type: "income",
     description: "Monthly salary",
@@ -112,7 +112,7 @@ export const seedTransactions: Transaction[] = [
   {
     id: id("tx", 12),
     date: "2026-01-07",
-    amount: 145,
+    amount: 890,
     category: "Health",
     type: "expense",
     description: "Pharmacy",
@@ -120,7 +120,7 @@ export const seedTransactions: Transaction[] = [
   {
     id: id("tx", 13),
     date: "2026-01-11",
-    amount: 780,
+    amount: 7800,
     category: "Food",
     type: "expense",
     description: "Groceries (bulk)",
@@ -128,7 +128,7 @@ export const seedTransactions: Transaction[] = [
   {
     id: id("tx", 14),
     date: "2026-01-15",
-    amount: 220,
+    amount: 450,
     category: "Transport",
     type: "expense",
     description: "Ride share",
@@ -136,7 +136,7 @@ export const seedTransactions: Transaction[] = [
   {
     id: id("tx", 15),
     date: "2026-01-22",
-    amount: 1100,
+    amount: 88000,
     category: "Freelance",
     type: "income",
     description: "API integration",
@@ -144,7 +144,7 @@ export const seedTransactions: Transaction[] = [
   {
     id: id("tx", 16),
     date: "2026-01-28",
-    amount: 250,
+    amount: 4200,
     category: "Bills",
     type: "expense",
     description: "Utilities",
@@ -152,7 +152,7 @@ export const seedTransactions: Transaction[] = [
   {
     id: id("tx", 17),
     date: "2026-02-01",
-    amount: 5200,
+    amount: 92000,
     category: "Salary",
     type: "income",
     description: "Monthly salary",
@@ -160,7 +160,7 @@ export const seedTransactions: Transaction[] = [
   {
     id: id("tx", 18),
     date: "2026-02-06",
-    amount: 60,
+    amount: 649,
     category: "Entertainment",
     type: "expense",
     description: "Streaming",
@@ -168,7 +168,7 @@ export const seedTransactions: Transaction[] = [
   {
     id: id("tx", 19),
     date: "2026-02-14",
-    amount: 199,
+    amount: 1899,
     category: "Shopping",
     type: "expense",
     description: "Headphones",
@@ -176,7 +176,7 @@ export const seedTransactions: Transaction[] = [
   {
     id: id("tx", 20),
     date: "2026-02-20",
-    amount: 340,
+    amount: 5100,
     category: "Food",
     type: "expense",
     description: "Weekly groceries",
@@ -184,7 +184,7 @@ export const seedTransactions: Transaction[] = [
   {
     id: id("tx", 21),
     date: "2026-03-01",
-    amount: 5200,
+    amount: 92000,
     category: "Salary",
     type: "income",
     description: "Monthly salary",
@@ -192,7 +192,7 @@ export const seedTransactions: Transaction[] = [
   {
     id: id("tx", 22),
     date: "2026-03-05",
-    amount: 175,
+    amount: 3500,
     category: "Transport",
     type: "expense",
     description: "Fuel",
@@ -200,7 +200,7 @@ export const seedTransactions: Transaction[] = [
   {
     id: id("tx", 23),
     date: "2026-03-12",
-    amount: 890,
+    amount: 18500,
     category: "Bills",
     type: "expense",
     description: "Rent top-up",
@@ -208,7 +208,7 @@ export const seedTransactions: Transaction[] = [
   {
     id: id("tx", 24),
     date: "2026-03-18",
-    amount: 500,
+    amount: 25000,
     category: "Freelance",
     type: "income",
     description: "Consulting",
@@ -216,7 +216,7 @@ export const seedTransactions: Transaction[] = [
   {
     id: id("tx", 25),
     date: "2026-03-25",
-    amount: 72,
+    amount: 720,
     category: "Food",
     type: "expense",
     description: "Coffee & snacks",

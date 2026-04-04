@@ -14,6 +14,8 @@ import {
   EXPENSE_CATEGORIES,
   INCOME_CATEGORIES,
 } from "@/data/seedTransactions";
+import { getCurrencySymbol } from "@/lib/currencies";
+import { useFinanceStore } from "@/store/useFinanceStore";
 import type { Transaction, TransactionType } from "@/types";
 
 type Mode = "create" | "edit";
@@ -41,6 +43,7 @@ export default function TransactionDialog({
 }) {
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down("sm"));
+  const transactionCurrency = useFinanceStore((s) => s.transactionCurrency);
   const [form, setForm] = useState(initialForm);
 
   const categories = useMemo(() => {
@@ -137,7 +140,7 @@ export default function TransactionDialog({
             <option value="expense">Expense</option>
           </TextField>
           <TextField
-            label="Amount"
+            label={`Amount (${getCurrencySymbol(transactionCurrency)})`}
             type="number"
             inputProps={{ min: 0, step: "0.01" }}
             value={form.amount}

@@ -12,6 +12,7 @@ import {
   formatRangeSummary,
   resolveAnalyticsRange,
 } from "@/lib/analyticsRange";
+import { SUPPORTED_TRANSACTION_CURRENCIES } from "@/lib/currencies";
 import { useFinanceStore } from "@/store/useFinanceStore";
 import type { AnalyticsBucketMode, AnalyticsRangePreset } from "@/types";
 
@@ -41,6 +42,10 @@ export default function DateRangeControls() {
   const setPreset = useFinanceStore((s) => s.setAnalyticsRangePreset);
   const setCustomRange = useFinanceStore((s) => s.setAnalyticsCustomRange);
   const setBucket = useFinanceStore((s) => s.setAnalyticsBucket);
+  const transactionCurrency = useFinanceStore((s) => s.transactionCurrency);
+  const setTransactionCurrency = useFinanceStore(
+    (s) => s.setTransactionCurrency
+  );
 
   const resolved = useMemo(
     () => resolveAnalyticsRange(preset, customStart, customEnd),
@@ -64,7 +69,8 @@ export default function DateRangeControls() {
         Date range
       </Typography>
       <Typography variant="caption" color="text.secondary" display="block" sx={{ mb: 1.5 }}>
-        Drives cards, table, insights, and analytics. Saved in localStorage.
+        Range controls cards, table, insights, and charts. All amounts are in the currency you pick
+        below (switching only relabels—no FX). Persisted locally.
       </Typography>
 
       <Stack
@@ -133,6 +139,22 @@ export default function DateRangeControls() {
           {BUCKET_OPTIONS.map((o) => (
             <option key={o.value} value={o.value}>
               {o.label}
+            </option>
+          ))}
+        </TextField>
+
+        <TextField
+          select
+          label="Transaction currency"
+          size="small"
+          value={transactionCurrency}
+          onChange={(e) => setTransactionCurrency(e.target.value)}
+          SelectProps={{ native: true }}
+          sx={{ minWidth: { xs: "100%", sm: 240 } }}
+        >
+          {SUPPORTED_TRANSACTION_CURRENCIES.map((c) => (
+            <option key={c.code} value={c.code}>
+              {c.label}
             </option>
           ))}
         </TextField>

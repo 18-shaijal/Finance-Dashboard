@@ -16,6 +16,7 @@ import {
 import { spendingByCategory } from "@/lib/financeSelectors";
 import { useFinanceStore } from "@/store/useFinanceStore";
 import type { Transaction } from "@/types";
+import { localeForCurrency } from "@/lib/currencies";
 import ChartEmptyPlaceholder from "./ChartEmptyPlaceholder";
 
 const COLORS = [
@@ -46,6 +47,8 @@ export default function SpendingBreakdownChart({
   const customEnd = useFinanceStore((s) => s.analyticsCustomEnd);
   const setFilterCategory = useFinanceStore((s) => s.setFilterCategory);
   const setFilterType = useFinanceStore((s) => s.setFilterType);
+  const transactionCurrency = useFinanceStore((s) => s.transactionCurrency);
+  const chartLocale = localeForCurrency(transactionCurrency);
 
   const { data, rangeSummary, inRangeCount } = useMemo(() => {
     const range = resolveAnalyticsRange(preset, customStart, customEnd);
@@ -183,9 +186,9 @@ export default function SpendingBreakdownChart({
                 boxShadow: theme.shadows[4],
               }}
               formatter={(value) =>
-                new Intl.NumberFormat("en-US", {
+                new Intl.NumberFormat(chartLocale, {
                   style: "currency",
-                  currency: "USD",
+                  currency: transactionCurrency,
                   maximumFractionDigits: 0,
                 }).format(Number(value))
               }

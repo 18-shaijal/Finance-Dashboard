@@ -2,6 +2,10 @@ import { format, subMonths } from "date-fns";
 import { create } from "zustand";
 import { createJSONStorage, persist } from "zustand/middleware";
 import { ALL_CATEGORIES, seedTransactions } from "@/data/seedTransactions";
+import {
+  DEFAULT_TRANSACTION_CURRENCY,
+  isSupportedTransactionCurrency,
+} from "@/lib/currencies";
 import { getClientStorage, withPersistWriteDedupe } from "@/lib/storage";
 import type {
   AnalyticsBucketMode,
@@ -21,7 +25,7 @@ const _initCustom = (() => {
   };
 })();
 
-const STORAGE_KEY = "finance-dashboard-v1";
+const STORAGE_KEY = "finance-dashboard-v2";
 
 const jsonPersistStorage = createJSONStorage(getClientStorage);
 
@@ -38,6 +42,8 @@ export interface FinanceState {
   analyticsCustomStart: string;
   analyticsCustomEnd: string;
   analyticsBucket: AnalyticsBucketMode;
+  /** ISO 4217; amounts in the store are plain numbers in this unit (no FX). */
+  transactionCurrency: string;
   setRole: (role: UserRole) => void;
   setSearchQuery: (q: string) => void;
   setFilterType: (f: FilterType) => void;
@@ -48,6 +54,7 @@ export interface FinanceState {
   setAnalyticsRangePreset: (p: AnalyticsRangePreset) => void;
   setAnalyticsCustomRange: (start: string, end: string) => void;
   setAnalyticsBucket: (b: AnalyticsBucketMode) => void;
+  setTransactionCurrency: (code: string) => void;
   clearTableFilters: () => void;
   addTransaction: (t: Omit<Transaction, "id">) => void;
   updateTransaction: (id: string, patch: Partial<Transaction>) => void;
@@ -74,6 +81,7 @@ export const useFinanceStore = create<FinanceState>()(
       analyticsCustomStart: _initCustom.analyticsCustomStart,
       analyticsCustomEnd: _initCustom.analyticsCustomEnd,
       analyticsBucket: "auto",
+      transactionCurrency: DEFAULT_TRANSACTION_CURRENCY,
 
       setRole: (role) => set((s) => (s.role === role ? s : { role })),
       setSearchQuery: (searchQuery) =>
@@ -110,6 +118,14 @@ export const useFinanceStore = create<FinanceState>()(
         }),
       setAnalyticsBucket: (analyticsBucket) =>
         set((s) => (s.analyticsBucket === analyticsBucket ? s : { analyticsBucket })),
+
+      setTransactionCurrency: (code) =>
+        set((s) =>
+          !isSupportedTransactionCurrency(code) ||
+          s.transactionCurrency === code
+            ? s
+            : { transactionCurrency: code }
+        ),
 
       clearTableFilters: () =>
         set((s) =>
@@ -157,6 +173,7 @@ export const useFinanceStore = create<FinanceState>()(
         analyticsCustomStart: s.analyticsCustomStart,
         analyticsCustomEnd: s.analyticsCustomEnd,
         analyticsBucket: s.analyticsBucket,
+        transactionCurrency: s.transactionCurrency,
       }),
       merge: (persisted, current) => {
         const p = persisted as Partial<FinanceState> | undefined;
@@ -197,6 +214,12 @@ export const useFinanceStore = create<FinanceState>()(
             ? p.analyticsCustomEnd
             : current.analyticsCustomEnd;
 
+        const currencyOk =
+          typeof p.transactionCurrency === "string" &&
+          isSupportedTransactionCurrency(p.transactionCurrency)
+            ? p.transactionCurrency
+            : current.transactionCurrency;
+
         return {
           ...current,
           transactions: Array.isArray(p.transactions)
@@ -210,6 +233,7 @@ export const useFinanceStore = create<FinanceState>()(
           analyticsCustomStart: startOk,
           analyticsCustomEnd: endOk,
           analyticsBucket: bucketOk,
+          transactionCurrency: currencyOk,
         };
       },
     }

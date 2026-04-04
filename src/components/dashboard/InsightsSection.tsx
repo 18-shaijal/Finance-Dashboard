@@ -9,8 +9,9 @@ import {
   Stack,
   Typography,
 } from "@mui/material";
+import { useMemo } from "react";
 import { differenceInCalendarDays, format, subDays } from "date-fns";
-import { formatCurrency } from "@/lib/formatCurrency";
+import { useFormatMoney } from "@/hooks/useFormatMoney";
 import {
   highestExpenseCategory,
   totalExpenses,
@@ -27,63 +28,83 @@ export default function InsightsSection({
   const preset = useFinanceStore((s) => s.analyticsRangePreset);
   const customStart = useFinanceStore((s) => s.analyticsCustomStart);
   const customEnd = useFinanceStore((s) => s.analyticsCustomEnd);
+  const { format: formatMoney, currency } = useFormatMoney();
 
-  const range = resolveAnalyticsRange(preset, customStart, customEnd);
-  const scoped = filterTransactionsInRange(transactions, range.start, range.end);
-  const expenseOnly = scoped.filter((t) => t.type === "expense");
-  const avgExpense =
-    expenseOnly.length === 0 ? 0 : totalExpenses(scoped) / expenseOnly.length;
+  const items = useMemo(() => {
+    const range = resolveAnalyticsRange(preset, customStart, customEnd);
+    const scoped = filterTransactionsInRange(
+      transactions,
+      range.start,
+      range.end
+    );
+    const expenseOnly = scoped.filter((t) => t.type === "expense");
+    const avgExpense =
+      expenseOnly.length === 0 ? 0 : totalExpenses(scoped) / expenseOnly.length;
 
-  const high = highestExpenseCategory(scoped);
+    const high = highestExpenseCategory(scoped);
 
-  const spanDays = Math.max(
-    1,
-    differenceInCalendarDays(range.end, range.start) + 1
-  );
-  const prevStart = subDays(range.start, spanDays);
-  const prevEnd = subDays(range.start, 1);
-  const prevScoped = filterTransactionsInRange(transactions, prevStart, prevEnd);
+    const spanDays = Math.max(
+      1,
+      differenceInCalendarDays(range.end, range.start) + 1
+    );
+    const prevStart = subDays(range.start, spanDays);
+    const prevEnd = subDays(range.start, 1);
+    const prevScoped = filterTransactionsInRange(
+      transactions,
+      prevStart,
+      prevEnd
+    );
 
-  const thisExpenses = totalExpenses(scoped);
-  const lastExpenses = totalExpenses(prevScoped);
-  const diff = thisExpenses - lastExpenses;
-  const pct =
-    lastExpenses === 0 ? (thisExpenses > 0 ? 100 : 0) : (diff / lastExpenses) * 100;
+    const thisExpenses = totalExpenses(scoped);
+    const lastExpenses = totalExpenses(prevScoped);
+    const diff = thisExpenses - lastExpenses;
+    const pct =
+      lastExpenses === 0
+        ? thisExpenses > 0
+          ? 100
+          : 0
+        : (diff / lastExpenses) * 100;
 
-  const items: { primary: string; secondary: string }[] = [];
+    const list: { primary: string; secondary: string }[] = [];
 
-  if (scoped.length === 0) {
-    items.push({
-      primary: "Nothing in this range",
-      secondary: "Move the dates or add rows that fall inside the window.",
-    });
-  } else {
-    if (expenseOnly.length === 0) {
-      items.push({
-        primary: "No expenses here",
-        secondary: "Category breakdown needs at least one expense line.",
+    if (scoped.length === 0) {
+      list.push({
+        primary: "Nothing in this range",
+        secondary: "Move the dates or add rows that fall inside the window.",
+      });
+    } else {
+      if (expenseOnly.length === 0) {
+        list.push({
+          primary: "No expenses here",
+          secondary: "Category breakdown needs at least one expense line.",
+        });
+      }
+      if (high) {
+        list.push({
+          primary: `Top category: ${high.name}`,
+          secondary: `${formatMoney(high.value)} in this range.`,
+        });
+      }
+      list.push({
+        primary: "Expenses vs last window",
+        secondary:
+          lastExpenses === 0 && thisExpenses === 0
+            ? "Zero in both windows."
+            : `${formatMoney(thisExpenses)} now vs ${formatMoney(
+                lastExpenses
+              )} before (${diff >= 0 ? "+" : ""}${pct.toFixed(1)}%).`,
+      });
+      list.push({
+        primary: "Snapshot",
+        secondary: `${scoped.length} rows${
+          expenseOnly.length
+            ? ` · avg expense ${formatMoney(avgExpense)}`
+            : ""
+        }`,
       });
     }
-    if (high) {
-      items.push({
-        primary: `Top category: ${high.name}`,
-        secondary: `${formatCurrency(high.value)} in this range.`,
-      });
-    }
-    items.push({
-      primary: "Expenses vs last window",
-      secondary:
-        lastExpenses === 0 && thisExpenses === 0
-          ? "Zero in both windows."
-          : `${formatCurrency(thisExpenses)} now vs ${formatCurrency(
-              lastExpenses
-            )} before (${diff >= 0 ? "+" : ""}${pct.toFixed(1)}%).`,
-    });
-    items.push({
-      primary: "Snapshot",
-      secondary: `${scoped.length} rows${expenseOnly.length ? ` · avg expense ${formatCurrency(avgExpense)}` : ""}`,
-    });
-  }
+    return list;
+  }, [transactions, preset, customStart, customEnd, currency, formatMoney]);
 
   return (
     <Card

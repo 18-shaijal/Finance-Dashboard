@@ -28,7 +28,7 @@ export class ErrorBoundary extends Component<Props, State> {
           <h1 style={{ fontSize: 20, marginBottom: 12 }}>Something broke</h1>
           <p style={{ color: "#444", marginBottom: 16 }}>
             Hard refresh first. If it persists, clear storage for this site (key{" "}
-            <code>finance-dashboard-v1</code>).
+            <code>finance-dashboard-v2</code>).
           </p>
           <pre
             style={{
